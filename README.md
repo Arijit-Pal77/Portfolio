@@ -11,7 +11,6 @@ Welcome to my personal portfolio website, showcasing my work as an AI & ML Engin
 ---
 
 ## 🚀 Features
-
 - **Profile Logs / About Me**: Details about my focus on building intelligent systems.
 - **Software Projects**: Highlights of key projects and interactive games/demos.
 - **Interactive Demos**: Built-in interactive components including Tic-Tac-Toe, Snake Game, and more.

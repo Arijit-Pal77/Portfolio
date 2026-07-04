@@ -23,6 +23,10 @@ export default function Navbar({
 }: NavbarProps) {
 
   const handleNavClick = (view: 'profile' | 'projects', sectionId?: string) => {
+    // Skip scroll if already on the same view and section
+    if (currentView === view && (!sectionId || activeSection === sectionId)) {
+      return;
+    }
     setCurrentView(view);
     if (sectionId) {
       setActiveSection(sectionId);

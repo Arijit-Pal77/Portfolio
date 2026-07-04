@@ -113,23 +113,23 @@ export default function Navbar({
       isSidebarOpen ? 'md:translate-x-0' : 'md:-translate-x-[calc(100%+1.5rem)]'
     }`}>
       {/* Brand Logo Header - hidden on mobile bottom bar, shown on desktop sidebar */}
-      <div className="hidden md:flex flex-col items-center gap-4">
+      <div className="hidden md:flex flex-col items-center gap-3">
         <motion.div 
           onClick={() => handleNavClick('profile', 'home')}
-          className="w-10 h-10 rounded-xl border border-electric-cyan/25 overflow-hidden shadow-[0_0_15px_rgba(0,243,255,0.15)] hover:shadow-[0_0_25px_rgba(0,243,255,0.35)] hover:border-electric-cyan/50 transition-all duration-300 cursor-pointer flex items-center justify-center bg-black"
+          className="group w-12 h-12 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(0,243,255,0.15)] hover:shadow-[0_0_25px_rgba(0,243,255,0.35)] transition-all duration-300 cursor-pointer flex items-center justify-center bg-[#0a0a0a] border border-electric-cyan/20 hover:border-electric-cyan/50"
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
           transition={{ type: 'spring', stiffness: 400, damping: 25 }}
         >
           <img 
-            src="/Photos/avatar.jpeg" 
-            className="w-full h-full object-cover" 
-            alt="Arijit Pal"
+            src="/Photos/logo.jpeg" 
+            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
+            alt="AP Logo"
           />
         </motion.div>
         <div 
           onClick={() => handleNavClick('profile', 'home')}
-          className="font-headline font-bold text-base tracking-widest neon-text-cyan vertical-text cursor-pointer hover:opacity-80 transition-all duration-300"
+          className="font-headline font-bold text-sm tracking-widest neon-text-cyan vertical-text cursor-pointer hover:opacity-80 transition-all duration-300"
         >
           ARIJIT PAL
         </div>

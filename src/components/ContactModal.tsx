@@ -15,36 +15,90 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+    if (!accessKey) {
+      setIsSending(true);
+      setHasSent(false);
+      setNetworkLogs([
+        'NET_INIT: Connecting to local environment variables...',
+        'ERR_CONFIG: Web3Forms access key not found in environment.',
+        'INSTRUCTION: Please register a free key at https://web3forms.com',
+        'INSTRUCTION: Add VITE_WEB3FORMS_ACCESS_KEY="your_key" to your .env file.',
+        'SYS_ABORTED: Packet delivery cancelled.'
+      ]);
+      return;
+    }
+
     setIsSending(true);
     setHasSent(false);
-    setNetworkLogs([]);
+    setNetworkLogs(['NET_INIT: Connecting to secure Web3Forms API routing node...']);
 
+    // Run the animation step updates
     const steps = [
-      'NET_INIT: Connecting to secure smtp.arijitpal.com routing node...',
       'ENCRYPTION: Initiating SSL/TLS payload wrapping key exchanges...',
       'TRANSMITTING: Injecting packet matrices of message payload...',
-      'DISPATCH: Message routed through local mail delivery agent.',
-      'SYS_COMPLETED: Packet delivery confirmed by receiver. Status: 200 OK'
+      'DISPATCH: Attempting message routing via Web3Forms gateway...'
     ];
 
     let stepCounter = 0;
-    const interval = setInterval(() => {
+    const logInterval = setInterval(() => {
       if (stepCounter < steps.length) {
         setNetworkLogs(prev => [...prev, steps[stepCounter]]);
         stepCounter++;
       } else {
-        clearInterval(interval);
+        clearInterval(logInterval);
+      }
+    }, 300);
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject || 'Portfolio Contact Form Message',
+          message: formData.message
+        })
+      });
+
+      const data = await response.json();
+      clearInterval(logInterval);
+      
+      if (data.success) {
+        setNetworkLogs(prev => [
+          ...prev,
+          'DISPATCH: Message routed through local mail delivery agent.',
+          'SYS_COMPLETED: Packet delivery confirmed by receiver. Status: 200 OK'
+        ]);
         setTimeout(() => {
           setIsSending(false);
           setHasSent(true);
           setFormData({ name: '', email: '', subject: '', message: '' });
-        }, 400);
+        }, 1000);
+      } else {
+        setNetworkLogs(prev => [
+          ...prev,
+          `ERR_API: Web3Forms rejected the payload. Message: ${data.message || 'Unknown error'}`,
+          'SYS_ABORTED: Telemetry delivery failed.'
+        ]);
       }
-    }, 450);
+    } catch (error) {
+      clearInterval(logInterval);
+      setNetworkLogs(prev => [
+        ...prev,
+        'ERR_CONN: Failed to establish network handshake with mail server.',
+        'SYS_ABORTED: Telemetry delivery failed.'
+      ]);
+    }
   };
 
   return (
@@ -152,29 +206,62 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
               exit={{ opacity: 0 }}
               className="bg-black/60 border border-secondary/10 p-5 rounded-xl flex flex-col min-h-[300px] justify-between"
             >
-              <div className="flex flex-col items-center gap-2 text-center py-4">
-                <div className="w-8 h-8 border-2 border-electric-cyan border-t-transparent rounded-full animate-spin" />
-                <span className="text-xs font-mono text-electric-cyan uppercase tracking-widest animate-pulse">
-                  Broadcasting Matrix packets...
-                </span>
-              </div>
+              {(() => {
+                const isFailed = networkLogs.some(log => log.startsWith('SYS_ABORTED'));
+                return (
+                  <>
+                    <div className="flex flex-col items-center gap-2 text-center py-4">
+                      {!isFailed ? (
+                        <>
+                          <div className="w-8 h-8 border-2 border-electric-cyan border-t-transparent rounded-full animate-spin" />
+                          <span className="text-xs font-mono text-electric-cyan uppercase tracking-widest animate-pulse">
+                            Broadcasting Matrix packets...
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <ShieldAlert className="w-8 h-8 text-red-500 animate-bounce" />
+                          <span className="text-xs font-mono text-red-500 uppercase tracking-widest font-bold">
+                            Transmission Terminated
+                          </span>
+                        </>
+                      )}
+                    </div>
 
-              <div className="space-y-1.5 font-mono text-[10px] bg-[#030303] p-4 rounded border border-white/5 flex-grow overflow-y-auto max-h-[160px]">
-                {networkLogs.map((log, index) => (
-                  <div
-                    key={index}
-                    className={`${
-                      log.startsWith('SYS_COMPLETED')
-                        ? 'text-green-400'
-                        : log.startsWith('TRANSMITTING')
-                        ? 'text-electric-cyan'
-                        : 'text-slate-400'
-                    }`}
-                  >
-                    {log}
-                  </div>
-                ))}
-              </div>
+                    <div className="space-y-1.5 font-mono text-[10px] bg-[#030303] p-4 rounded border border-white/5 flex-grow overflow-y-auto max-h-[160px]">
+                      {networkLogs.map((log, index) => (
+                        <div
+                          key={index}
+                          className={`${
+                            log.startsWith('SYS_COMPLETED')
+                              ? 'text-green-400'
+                              : log.startsWith('TRANSMITTING') || log.startsWith('ENCRYPTION') || log.startsWith('DISPATCH') || log.startsWith('NET_INIT')
+                              ? 'text-electric-cyan'
+                              : log.startsWith('ERR_') || log.startsWith('SYS_ABORTED') || log.startsWith('INSTRUCTION')
+                              ? 'text-red-400'
+                              : 'text-slate-400'
+                          }`}
+                        >
+                          {log}
+                        </div>
+                      ))}
+                    </div>
+
+                    {isFailed && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsSending(false);
+                          setNetworkLogs([]);
+                        }}
+                        className="mt-4 w-full py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 font-mono text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer text-center"
+                      >
+                        Return to Form Input
+                      </button>
+                    )}
+                  </>
+                );
+              })()}
             </motion.div>
           ) : (
             /* Success confirmation card */

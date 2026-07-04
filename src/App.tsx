@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Navbar from './components/Navbar';
 import ProfileView from './components/ProfileView';
 import ProjectsView from './components/ProjectsView';
@@ -6,6 +6,7 @@ import SettingsModal from './components/SettingsModal';
 import BackgroundScrubber from './components/BackgroundScrubber';
 import { PROFILE_DETAILS } from './data';
 import { Github, Linkedin, Cpu } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<'profile' | 'projects'>('profile');
@@ -19,6 +20,22 @@ export default function App() {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
 
+  // Memoize view setter to prevent unnecessary re-renders in child components
+  const handleSetActiveSection = useCallback((sec: string) => {
+    setActiveSection(sec);
+  }, []);
+
+  // View transition animation config
+  const viewTransition = {
+    initial: { opacity: 0, y: 16, filter: 'blur(4px)' },
+    animate: { opacity: 1, y: 0, filter: 'blur(0px)' },
+    exit: { opacity: 0, y: -12, filter: 'blur(4px)' },
+    transition: {
+      duration: 0.45,
+      ease: [0.16, 1, 0.3, 1]
+    }
+  };
+
   return (
     <div className="min-h-screen text-[#e2e8f0] relative overflow-hidden">
       {/* Cinematic Film Grain */}
@@ -30,11 +47,11 @@ export default function App() {
       {/* Decorative ambient lighting bloom */}
       <div 
         className="absolute top-[-10%] left-[20%] w-[80vw] max-w-[600px] h-[80vw] max-h-[600px] rounded-full bg-electric-cyan/5 blur-[120px] pointer-events-none transition-opacity duration-300"
-        style={{ opacity: ambientGlow / 100 }}
+        style={{ opacity: ambientGlow / 100, willChange: 'opacity' }}
       ></div>
       <div 
         className="absolute bottom-[-10%] right-[10%] w-[70vw] max-w-[500px] h-[70vw] max-h-[500px] rounded-full bg-primary-orange/5 blur-[120px] pointer-events-none transition-opacity duration-300"
-        style={{ opacity: ambientGlow / 100 }}
+        style={{ opacity: ambientGlow / 100, willChange: 'opacity' }}
       ></div>
 
       {/* Global CRT Scanlines Overlay */}
@@ -79,14 +96,26 @@ export default function App() {
             </div>
           </div>
 
-          {/* Render Active View */}
-          {currentView === 'profile' ? (
-            <ProfileView
-              setActiveSection={setActiveSection}
-            />
-          ) : (
-            <ProjectsView />
-          )}
+          {/* Render Active View with smooth crossfade transitions */}
+          <AnimatePresence mode="wait">
+            {currentView === 'profile' ? (
+              <motion.div
+                key="profile"
+                {...viewTransition}
+              >
+                <ProfileView
+                  setActiveSection={handleSetActiveSection}
+                />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="projects"
+                {...viewTransition}
+              >
+                <ProjectsView />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Global Footer block branding */}

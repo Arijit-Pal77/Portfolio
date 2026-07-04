@@ -1,6 +1,7 @@
 import React from 'react';
 import { Home, User, GraduationCap, Layers, Terminal, Send, ChevronLeft, ChevronRight, Settings } from 'lucide-react';
 import { TabId } from '../types';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface NavbarProps {
   currentView: 'profile' | 'projects';
@@ -40,6 +41,69 @@ export default function Navbar({
     }
   };
 
+  const isNavActive = (view: 'profile' | 'projects', section?: string) => {
+    if (section) return currentView === view && activeSection === section;
+    return currentView === view;
+  };
+
+  // Nav item component with smooth spring-animated active indicator
+  const NavItem = ({ 
+    icon: Icon, 
+    label, 
+    view, 
+    section,
+    activeColor = 'amber'
+  }: { 
+    icon: React.ElementType; 
+    label: string; 
+    view: 'profile' | 'projects'; 
+    section?: string;
+    activeColor?: 'amber' | 'orange';
+  }) => {
+    const active = section ? isNavActive(view, section) : isNavActive(view);
+    const colorClasses = activeColor === 'orange' 
+      ? { active: 'text-primary-orange', glow: 'neon-text-orange', dot: 'bg-primary-orange' }
+      : { active: 'text-primary-amber', glow: 'neon-text-amber', dot: 'bg-primary-amber' };
+
+    return (
+      <button
+        onClick={() => handleNavClick(view, section)}
+        className="group relative cursor-pointer"
+      >
+        <motion.div
+          animate={{
+            scale: active ? 1.15 : 1,
+          }}
+          transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+        >
+          <Icon className={`w-5.5 h-5.5 transition-colors duration-300 ${
+            active
+              ? `${colorClasses.active} ${colorClasses.glow}`
+              : 'text-electric-cyan/60 hover:text-electric-cyan'
+          }`} />
+        </motion.div>
+        
+        {/* Active dot indicator */}
+        <AnimatePresence>
+          {active && (
+            <motion.div
+              className={`absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${colorClasses.dot} md:left-auto md:-right-2.5 md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:translate-x-0`}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0 }}
+              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+            />
+          )}
+        </AnimatePresence>
+
+        {/* Tooltip with smooth fade+slide */}
+        <span className="hidden md:block absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 translate-x-1 group-hover:translate-x-0 transition-all duration-200 whitespace-nowrap rounded pointer-events-none">
+          {label}
+        </span>
+      </button>
+    );
+  };
+
   return (
     <nav className={`fixed z-50 border border-electric-cyan/20 bg-[#050505]/80 backdrop-blur-xl select-none transition-all duration-300
       /* Mobile: horizontal bottom bar */
@@ -50,16 +114,19 @@ export default function Navbar({
     }`}>
       {/* Brand Logo Header - hidden on mobile bottom bar, shown on desktop sidebar */}
       <div className="hidden md:flex flex-col items-center gap-4">
-        <div 
+        <motion.div 
           onClick={() => handleNavClick('profile', 'home')}
-          className="w-10 h-10 rounded-xl border border-electric-cyan/25 overflow-hidden shadow-[0_0_15px_rgba(0,243,255,0.15)] hover:shadow-[0_0_25px_rgba(0,243,255,0.35)] hover:border-electric-cyan/50 hover:scale-105 transition-all duration-300 cursor-pointer flex items-center justify-center bg-black"
+          className="w-10 h-10 rounded-xl border border-electric-cyan/25 overflow-hidden shadow-[0_0_15px_rgba(0,243,255,0.15)] hover:shadow-[0_0_25px_rgba(0,243,255,0.35)] hover:border-electric-cyan/50 transition-all duration-300 cursor-pointer flex items-center justify-center bg-black"
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 25 }}
         >
           <img 
             src="/Photos/avatar.jpeg" 
             className="w-full h-full object-cover" 
             alt="Arijit Pal"
           />
-        </div>
+        </motion.div>
         <div 
           onClick={() => handleNavClick('profile', 'home')}
           className="font-headline font-bold text-base tracking-widest neon-text-cyan vertical-text cursor-pointer hover:opacity-80 transition-all duration-300"
@@ -70,78 +137,26 @@ export default function Navbar({
 
       {/* Nav Icons list */}
       <div className="flex flex-row gap-6 items-center md:flex-col md:gap-9">
-        {/* Home */}
-        <button
-          onClick={() => handleNavClick('profile', 'home')}
-          className="group relative cursor-pointer"
-        >
-          <Home className={`w-5.5 h-5.5 transition-all duration-300 ${
-            currentView === 'profile' && activeSection === 'home'
-              ? 'text-primary-amber neon-text-amber scale-110'
-              : 'text-electric-cyan/60 hover:text-electric-cyan'
-          }`} />
-          <span className="hidden md:block absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap rounded">
-            Home
-          </span>
-        </button>
-
-        {/* About */}
-        <button
-          onClick={() => handleNavClick('profile', 'about')}
-          className="group relative cursor-pointer"
-        >
-          <User className={`w-5.5 h-5.5 transition-all duration-300 ${
-            currentView === 'profile' && activeSection === 'about'
-              ? 'text-primary-amber neon-text-amber scale-110'
-              : 'text-electric-cyan/60 hover:text-electric-cyan'
-          }`} />
-          <span className="hidden md:block absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap rounded">
-            About
-          </span>
-        </button>
-
-        {/* Education */}
-        <button
-          onClick={() => handleNavClick('profile', 'education')}
-          className="group relative cursor-pointer"
-        >
-          <GraduationCap className={`w-5.5 h-5.5 transition-all duration-300 ${
-            currentView === 'profile' && activeSection === 'education'
-              ? 'text-primary-amber neon-text-amber scale-110'
-              : 'text-electric-cyan/60 hover:text-electric-cyan'
-          }`} />
-          <span className="hidden md:block absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap rounded">
-            Education
-          </span>
-        </button>
-
-        {/* Projects */}
-        <button
-          onClick={() => handleNavClick('projects')}
-          className="group relative cursor-pointer"
-        >
-          <Layers className={`w-5.5 h-5.5 transition-all duration-300 ${
-            currentView === 'projects'
-              ? 'text-primary-orange neon-text-orange scale-110'
-              : 'text-electric-cyan/60 hover:text-electric-cyan'
-          }`} />
-          <span className="hidden md:block absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap rounded">
-            Projects
-          </span>
-        </button>
+        <NavItem icon={Home} label="Home" view="profile" section="home" />
+        <NavItem icon={User} label="About" view="profile" section="about" />
+        <NavItem icon={GraduationCap} label="Education" view="profile" section="education" />
+        <NavItem icon={Layers} label="Projects" view="projects" activeColor="orange" />
       </div>
 
       {/* Settings Action Button */}
-      <button
+      <motion.button
         onClick={onOpenSettings}
         className="bg-electric-cyan/10 border border-electric-cyan/30 text-electric-cyan p-2.5 rounded-lg hover:bg-electric-cyan hover:text-background transition-all duration-300 cursor-pointer shadow-[0_0_10px_rgba(0,243,255,0.15)] group relative"
         title="Settings"
+        whileHover={{ scale: 1.08 }}
+        whileTap={{ scale: 0.92 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       >
         <Settings className="w-4 h-4" />
-        <span className="hidden md:block absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap rounded pointer-events-none">
+        <span className="hidden md:block absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 translate-x-1 group-hover:translate-x-0 transition-all duration-200 whitespace-nowrap rounded pointer-events-none">
           Settings
         </span>
-      </button>
+      </motion.button>
 
       {/* absolute sidebar toggle button - desktop only */}
       <button

@@ -6,6 +6,7 @@ import DiseaseScanner from './DiseaseScanner';
 import CaptionerDemo from './CaptionerDemo';
 import SnakeGame from './SnakeGame';
 import TicTacToeGame from './TicTacToeGame';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface ProjectsViewProps {
 }
@@ -50,10 +51,52 @@ export default function ProjectsView({}: ProjectsViewProps) {
     }
   };
 
+  // Staggered scroll-reveal variants for project cards
+  const cardContainerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.05
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 30, filter: 'blur(4px)' },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      transition: {
+        duration: 0.7,
+        ease: [0.16, 1, 0.3, 1]
+      }
+    }
+  };
+
+  const headerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.16, 1, 0.3, 1]
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen relative scanline py-12">
       {/* Header Section */}
-      <header className="mb-12 sm:mb-24 relative select-none">
+      <motion.header
+        className="mb-12 sm:mb-24 relative select-none"
+        variants={headerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+      >
         <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-primary-orange/10 border border-primary-orange/30 text-primary-orange mb-8 clip-path-polygon">
           <Code className="w-3.5 h-3.5" />
           <span className="font-mono text-[10px] uppercase tracking-[0.2em]">Data Repository / Selected Works</span>
@@ -66,33 +109,47 @@ export default function ProjectsView({}: ProjectsViewProps) {
         <p className="font-mono text-[10px] sm:text-xs text-electric-cyan/70 max-w-2xl leading-relaxed border-l-2 border-electric-cyan/30 pl-6 uppercase tracking-wider">
           SYSTEM_LOG: A collection of projects spanning Deep Learning, automation, and interactive web experiences. Each piece represents a journey in technical problem-solving.
         </p>
-      </header>
+      </motion.header>
 
-      {/* Interactive Playground Sandbox */}
-      {activeInteractiveId && (
-        <div className="mb-16 border-t border-b border-electric-cyan/20 bg-electric-cyan/[0.01] py-8 relative">
-          <div className="max-w-4xl mx-auto px-2 sm:px-4">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
-              <span className="text-[10px] font-mono text-primary-orange uppercase tracking-wider flex items-center gap-1.5">
-                <Cpu className="w-3.5 h-3.5 text-primary-orange animate-pulse" />
-                Live Matrix Sandpit: {PROJECTS.find(p => p.id === activeInteractiveId)?.title}
-              </span>
-              <button
-                onClick={() => setActiveInteractiveId(null)}
-                className="text-xs font-mono text-slate-500 hover:text-white transition-colors cursor-pointer"
-              >
-                [ Shut Down Container ]
-              </button>
+      {/* Interactive Playground Sandbox — Animated open/close */}
+      <AnimatePresence>
+        {activeInteractiveId && (
+          <motion.div
+            className="mb-16 border-t border-b border-electric-cyan/20 bg-electric-cyan/[0.01] py-8 relative overflow-hidden"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="max-w-4xl mx-auto px-2 sm:px-4">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
+                <span className="text-[10px] font-mono text-primary-orange uppercase tracking-wider flex items-center gap-1.5">
+                  <Cpu className="w-3.5 h-3.5 text-primary-orange animate-pulse" />
+                  Live Matrix Sandpit: {PROJECTS.find(p => p.id === activeInteractiveId)?.title}
+                </span>
+                <button
+                  onClick={() => setActiveInteractiveId(null)}
+                  className="text-xs font-mono text-slate-500 hover:text-white transition-colors cursor-pointer"
+                >
+                  [ Shut Down Container ]
+                </button>
+              </div>
+              {getInteractiveComponent(activeInteractiveId)}
             </div>
-            {getInteractiveComponent(activeInteractiveId)}
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Projects Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 mb-16 sm:mb-32">
+      {/* Projects Grid — Staggered scroll-reveal */}
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 mb-16 sm:mb-32"
+        variants={cardContainerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.05 }}
+      >
         {/* Plant Disease Detection (Large Featured) */}
-        <article className="md:col-span-8 group">
+        <motion.article className="md:col-span-8 group" variants={cardVariants}>
           <div className="glass-cyber clip-corner h-full flex flex-col relative overflow-hidden group-hover:neon-border-orange transition-all duration-500">
             <div className="relative h-48 sm:h-80 overflow-hidden border-b border-primary-orange/20">
               <img
@@ -132,10 +189,10 @@ export default function ProjectsView({}: ProjectsViewProps) {
             {/* Decorative Corner */}
             <div className="absolute bottom-0 right-0 w-8 h-8 bg-primary-orange/20 pointer-events-none"></div>
           </div>
-        </article>
+        </motion.article>
 
         {/* AI Video Caption Generator */}
-        <article className="md:col-span-4 group">
+        <motion.article className="md:col-span-4 group" variants={cardVariants}>
           <div className="glass-cyber clip-corner h-full flex flex-col group-hover:neon-border-cyan transition-all duration-500">
             <div className="relative h-48 sm:h-64 overflow-hidden border-b border-electric-cyan/20">
               <img
@@ -168,10 +225,10 @@ export default function ProjectsView({}: ProjectsViewProps) {
               </div>
             </div>
           </div>
-        </article>
+        </motion.article>
 
         {/* Automatic Birthday Wisher */}
-        <article className="md:col-span-4 group">
+        <motion.article className="md:col-span-4 group" variants={cardVariants}>
           <div className="glass-cyber clip-corner h-full p-5 sm:p-8 border-l-4 border-l-primary-orange/40 relative group-hover:neon-border-orange transition-all duration-500">
             <div className="flex justify-between mb-8 select-none">
               <div className="w-12 h-12 bg-primary-orange/10 border border-primary-orange/20 flex items-center justify-center">
@@ -198,10 +255,10 @@ export default function ProjectsView({}: ProjectsViewProps) {
               </button>
             </div>
           </div>
-        </article>
+        </motion.article>
 
         {/* Snake Game */}
-        <article className="md:col-span-4 group">
+        <motion.article className="md:col-span-4 group" variants={cardVariants}>
           <div className="glass-cyber clip-corner h-full p-5 sm:p-8 relative overflow-hidden group-hover:neon-border-cyan transition-all duration-500">
             <div className="absolute -right-6 -bottom-6 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none select-none">
               <Gamepad2 className="w-28 h-28" />
@@ -232,10 +289,10 @@ export default function ProjectsView({}: ProjectsViewProps) {
               </button>
             </div>
           </div>
-        </article>
+        </motion.article>
 
         {/* Tic Tac Toe AI */}
-        <article className="md:col-span-4 group">
+        <motion.article className="md:col-span-4 group" variants={cardVariants}>
           <div className="glass-cyber clip-corner h-full p-5 sm:p-8 border-r-4 border-r-electric-cyan/40 group-hover:neon-border-cyan transition-all duration-500 flex flex-col justify-between">
             <div>
               <h3 className="font-headline text-xl font-bold text-white mb-4">
@@ -267,8 +324,8 @@ export default function ProjectsView({}: ProjectsViewProps) {
               </button>
             </div>
           </div>
-        </article>
-      </div>
+        </motion.article>
+      </motion.div>
 
 
     </div>

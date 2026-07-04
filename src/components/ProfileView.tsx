@@ -13,22 +13,41 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
   const educationRef = useRef<HTMLDivElement>(null);
   const [isImageTapped, setIsImageTapped] = useState(false);
 
-  // Scroll Observer to highlight active sections in side nav!
+  // IntersectionObserver for section tracking (replaces scroll event listener)
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight / 3;
+    const sections = [
+      { ref: educationRef, id: 'education' },
+      { ref: aboutRef, id: 'about' },
+      { ref: homeRef, id: 'home' }
+    ];
 
-      if (educationRef.current && scrollPosition >= educationRef.current.offsetTop) {
-        setActiveSection('education');
-      } else if (aboutRef.current && scrollPosition >= aboutRef.current.offsetTop) {
-        setActiveSection('about');
-      } else {
-        setActiveSection('home');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Find the entry with the highest intersection ratio
+        let bestEntry: IntersectionObserverEntry | null = null;
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            if (!bestEntry || entry.intersectionRatio > bestEntry.intersectionRatio) {
+              bestEntry = entry;
+            }
+          }
+        }
+        if (bestEntry) {
+          const id = bestEntry.target.getAttribute('id');
+          if (id) setActiveSection(id);
+        }
+      },
+      {
+        rootMargin: '-30% 0px -50% 0px',
+        threshold: [0, 0.1, 0.25, 0.5]
       }
-    };
+    );
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    sections.forEach(({ ref }) => {
+      if (ref.current) observer.observe(ref.current);
+    });
+
+    return () => observer.disconnect();
   }, [setActiveSection]);
 
   // Animation Variants
@@ -130,6 +149,42 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
         repeat: Infinity,
         repeatType: 'reverse' as const,
         repeatDelay: 0.2
+      }
+    }
+  };
+
+  // Scroll-reveal variants for About & Education sections
+  const sectionRevealVariants = {
+    hidden: { opacity: 0, y: 30, filter: 'blur(4px)' },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      transition: {
+        duration: 0.8,
+        ease: [0.16, 1, 0.3, 1]
+      }
+    }
+  };
+
+  const staggerContainerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const staggerItemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: [0.16, 1, 0.3, 1]
       }
     }
   };
@@ -285,19 +340,27 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
         </motion.div>
       </section>
 
-      {/* 2. About / Competencies Section */}
-      <section id="about" ref={aboutRef} className="scroll-mt-24">
-        <div className="mb-12">
+      {/* 2. About / Competencies Section — Scroll-revealed */}
+      <motion.section
+        id="about"
+        ref={aboutRef}
+        className="scroll-mt-24"
+        variants={staggerContainerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.15 }}
+      >
+        <motion.div className="mb-12" variants={staggerItemVariants}>
           <div className="inline-flex items-center gap-2 font-mono text-[10px] text-primary-amber uppercase tracking-widest mb-3">
             <span className="w-1.5 h-1.5 bg-primary-amber"></span>
             Background Briefing
           </div>
           <h2 className="font-headline text-3xl font-bold text-white">Core Competency Matrix</h2>
           <p className="text-xs text-slate-500 mt-1 uppercase font-mono">Querying neural capabilities and stack performance</p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-          <div className="md:col-span-5 space-y-4">
+          <motion.div className="md:col-span-5 space-y-4" variants={staggerItemVariants}>
             <h3 className="font-headline text-lg font-semibold text-white flex items-center gap-2">
               <Cpu className="w-5 h-5 text-electric-cyan" />
               Machine Learning & Data
@@ -323,9 +386,9 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
                 <span className="text-electric-cyan">Pandas Bound</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="md:col-span-7 space-y-5">
+          <motion.div className="md:col-span-7 space-y-5" variants={staggerItemVariants}>
             {/* Programming & Mathematics sliders */}
             <div className="space-y-4 bg-white/[0.01] border border-white/5 p-6 rounded-2xl">
               <div>
@@ -368,24 +431,36 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* 3. Education Journey Section */}
-      <section id="education" ref={educationRef} className="scroll-mt-24">
-        <div className="mb-12">
+      {/* 3. Education Journey Section — Scroll-revealed */}
+      <motion.section
+        id="education"
+        ref={educationRef}
+        className="scroll-mt-24"
+        variants={staggerContainerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.1 }}
+      >
+        <motion.div className="mb-12" variants={staggerItemVariants}>
           <div className="inline-flex items-center gap-2 font-mono text-[10px] text-electric-cyan uppercase tracking-widest mb-3">
             <GraduationCap className="w-3.5 h-3.5 text-electric-cyan" />
             Academic Chronicles
           </div>
           <h2 className="font-headline text-3xl font-bold text-white">Education Milestones</h2>
           <p className="text-xs text-slate-500 mt-1 uppercase font-mono">Registered credentials on the mainframe</p>
-        </div>
+        </motion.div>
 
         <div className="max-w-3xl">
           {EDUCATION_MILESTONES.map((edu, idx) => (
-            <div key={idx} className="relative pl-8 border-l border-electric-cyan/20 space-y-4">
+            <motion.div
+              key={idx}
+              className="relative pl-8 border-l border-electric-cyan/20 space-y-4"
+              variants={staggerItemVariants}
+            >
               {/* Timeline dot */}
               <div className="absolute -left-1.5 top-1.5 w-3 h-3 bg-black border border-electric-cyan rounded-full flex items-center justify-center">
                 <div className="w-1 h-1 bg-electric-cyan rounded-full animate-ping" />
@@ -422,10 +497,10 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
                   ))}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }

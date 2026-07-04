@@ -107,7 +107,7 @@ export default function BackgroundScrubber() {
   // Interpolation loop to smooth frame changes
   useEffect(() => {
     let animFrameId: number;
-    const scrubInertia = 0.08;
+    const scrubInertia = 0.12;
 
     const loop = () => {
       // Interpolate Frame
@@ -232,7 +232,7 @@ export default function BackgroundScrubber() {
         <span className="scroll-text">Scroll to Experience</span>
       </div>
 
-      <div ref={containerRef} className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none -z-20 bg-[#020202]">
+      <div ref={containerRef} className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none -z-20 bg-[#020202]" style={{ willChange: 'transform' }}>
         {/* Photo sequence canvas */}
         <canvas ref={canvasRef} className="block w-full h-full" style={{ opacity: 1 }} />
 

@@ -25,8 +25,6 @@ export default function SettingsModal({
 }: SettingsModalProps) {
   const [activeTab, setActiveTab] = useState<'display' | 'audio' | 'security'>('display');
 
-  if (!isOpen) return null;
-
   const handleReset = () => {
     setCrtActive(true);
     setAmbientGlow(60);
@@ -34,8 +32,30 @@ export default function SettingsModal({
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-      <div className="w-full max-w-xl rounded-2xl overflow-hidden border border-electric-cyan/20 bg-[#070707] shadow-[0_0_25px_rgba(0,243,255,0.2)] flex flex-col relative p-6">
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+        >
+          {/* Animated backdrop */}
+          <motion.div
+            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+          />
+          <motion.div
+            className="w-full max-w-xl rounded-2xl overflow-hidden border border-electric-cyan/20 bg-[#070707] shadow-[0_0_25px_rgba(0,243,255,0.2)] flex flex-col relative p-6 z-10"
+            initial={{ opacity: 0, y: 20, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.97 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          >
         
         {/* Close Button */}
         <button
@@ -213,7 +233,9 @@ export default function SettingsModal({
             </div>
           </div>
         </div>
-      </div>
-    </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

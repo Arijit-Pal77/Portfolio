@@ -37,7 +37,7 @@ export default function App() {
         setIsSidebarOpen={setIsSidebarOpen}
       />
 
-      <main className={`transition-all duration-300 ${isSidebarOpen ? 'ml-28' : 'ml-6 sm:ml-12'} min-h-screen flex flex-col justify-between px-6 sm:px-12 lg:px-24 py-12 relative max-w-7xl`}>
+      <main className={`transition-all duration-300 ${isSidebarOpen ? 'ml-28' : 'ml-6 sm:ml-12'} min-h-screen flex flex-col justify-between px-6 sm:px-12 lg:px-24 py-12 relative w-full max-w-[1400px]`}>
         <div className="flex-grow">
           {/* Top Global Navigation Bar Switcher */}
           <div className="flex justify-between items-center mb-16 border-b border-white/5 pb-6">

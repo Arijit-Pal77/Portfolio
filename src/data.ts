@@ -55,12 +55,12 @@ export const PROJECTS: Project[] = [
 
 export const EDUCATION_MILESTONES: Education[] = [
   {
-    period: '2025 - 2029',
-    degree: 'Bachelor of Engineering',
-    specialization: 'COMPUTER SCIENCE & ENGINEERING (AI & ML)',
-    institution: 'Chandigarh University',
-    description: 'Currently pursuing a specialization in Artificial Intelligence and Machine Learning. Immersed in core CS fundamentals while exploring advanced topics like neural networks, statistical modeling, and data structures.',
-    skills: ['Mathematics', 'Python', 'Data Analytics']
+    period: '2022 - 2023',
+    degree: 'Matriculation',
+    specialization: 'GENERAL ACADEMICS (89.0% MARKS)',
+    institution: 'Patrasayer Bamira Gurudas Institution',
+    description: 'Completed Secondary Education (10th Grade) board examinations with an aggregate score of 89.0%. Developed strong foundations in Mathematics and Physical Sciences.',
+    skills: ['Mathematics', 'Physical Sciences', 'Life Sciences', 'Logical Reasoning']
   },
   {
     period: '2024 - 2025',
@@ -71,12 +71,12 @@ export const EDUCATION_MILESTONES: Education[] = [
     skills: ['Physics', 'Chemistry', 'Mathematics', 'Computer Science']
   },
   {
-    period: '2022 - 2023',
-    degree: 'Matriculation',
-    specialization: 'GENERAL ACADEMICS (89.0% MARKS)',
-    institution: 'Patrasayer Bamira Gurudas Institution',
-    description: 'Completed Secondary Education (10th Grade) board examinations with an aggregate score of 89.0%. Developed strong foundations in Mathematics and Physical Sciences.',
-    skills: ['Mathematics', 'Physical Sciences', 'Life Sciences', 'Logical Reasoning']
+    period: '2025 - 2029',
+    degree: 'Bachelor of Engineering',
+    specialization: 'COMPUTER SCIENCE & ENGINEERING (AI & ML)',
+    institution: 'Chandigarh University',
+    description: 'Currently pursuing a specialization in Artificial Intelligence and Machine Learning. Immersed in core CS fundamentals while exploring advanced topics like neural networks, statistical modeling, and data structures.',
+    skills: ['Mathematics', 'Python', 'Data Analytics']
   }
 ];
 

@@ -60,7 +60,7 @@ export const EDUCATION_MILESTONES: Education[] = [
     specialization: 'GENERAL ACADEMICS (89.0% MARKS)',
     institution: 'Patrasayer Bamira Gurudas Institution',
     description: 'Completed Secondary Education (10th Grade) board examinations with an aggregate score of 89.0%. Developed strong foundations in Mathematics and Physical Sciences.',
-    skills: ['Mathematics', 'Physical Sciences', 'Life Sciences', 'Logical Reasoning']
+    skills: ['English', 'Bengali', 'Mathematics', 'Physical Sciences', 'Life Sciences', 'Geography', 'History']
   },
   {
     period: '2024 - 2025',
@@ -68,7 +68,7 @@ export const EDUCATION_MILESTONES: Education[] = [
     specialization: 'SCIENCE STREAM (90.6% MARKS)',
     institution: 'Bankura Hindu High School',
     description: 'Completed Higher Secondary (12th Grade) board examinations with an aggregate score of 90.6%. Specialized in Physics, Chemistry, Mathematics, and Computer Science.',
-    skills: ['Physics', 'Chemistry', 'Mathematics', 'Computer Science']
+    skills: ['Physics', 'Chemistry', 'Mathematics', 'Biology']
   },
   {
     period: '2025 - 2029',
@@ -76,7 +76,7 @@ export const EDUCATION_MILESTONES: Education[] = [
     specialization: 'COMPUTER SCIENCE & ENGINEERING (AI & ML)',
     institution: 'Chandigarh University',
     description: 'Currently pursuing a specialization in Artificial Intelligence and Machine Learning. Immersed in core CS fundamentals while exploring advanced topics like neural networks, statistical modeling, and data structures.',
-    skills: ['Mathematics', 'Python', 'Data Analytics']
+    skills: ['Mathematics', 'Python', 'Data Analytics', 'C++', 'CN', 'DBMS', 'TOC', 'COA', 'DSA']
   }
 ];
 

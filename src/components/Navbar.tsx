@@ -37,8 +37,8 @@ export default function Navbar({
   };
 
   return (
-    <nav className={`fixed left-0 top-0 h-full w-20 z-50 border-r border-electric-cyan/20 bg-black/90 backdrop-blur-md flex flex-col items-center py-12 justify-between select-none transition-all duration-300 ${
-      isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+    <nav className={`fixed left-4 top-4 bottom-4 w-20 z-50 border border-electric-cyan/20 bg-[#050505]/45 backdrop-blur-xl rounded-2xl flex flex-col items-center py-10 justify-between select-none transition-all duration-300 ${
+      isSidebarOpen ? 'translate-x-0' : '-translate-x-[calc(100%+1.5rem)]'
     }`}>
       {/* Brand Logo - Vertical text */}
       <div 
@@ -134,7 +134,7 @@ export default function Navbar({
       {/* absolute sidebar toggle button */}
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className="w-9 h-9 absolute top-6 -right-9 border border-l-0 border-electric-cyan/20 bg-black/90 text-electric-cyan/60 rounded-r-lg flex items-center justify-center hover:text-electric-cyan hover:bg-electric-cyan/5 hover:border-electric-cyan/40 transition-all cursor-pointer shadow-[2px_0_10px_rgba(0,0,0,0.5)]"
+        className="w-9 h-9 absolute top-6 -right-9 border border-l-0 border-electric-cyan/20 bg-[#050505]/45 backdrop-blur-xl text-electric-cyan/60 rounded-r-lg flex items-center justify-center hover:text-electric-cyan hover:bg-electric-cyan/5 hover:border-electric-cyan/40 transition-all cursor-pointer shadow-[2px_0_10px_rgba(0,0,0,0.5)]"
         title={isSidebarOpen ? "Collapse Sidebar" : "Expand Sidebar"}
       >
         {isSidebarOpen ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}

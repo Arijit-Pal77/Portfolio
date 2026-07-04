@@ -37,8 +37,7 @@ export default function App() {
         setIsSidebarOpen={setIsSidebarOpen}
       />
 
-      {/* Main Container Layout */}
-      <main className={`transition-all duration-300 ${isSidebarOpen ? 'ml-20' : 'ml-6 sm:ml-12'} min-h-screen flex flex-col justify-between px-6 sm:px-12 lg:px-24 py-12 relative max-w-7xl`}>
+      <main className={`transition-all duration-300 ${isSidebarOpen ? 'ml-28' : 'ml-6 sm:ml-12'} min-h-screen flex flex-col justify-between px-6 sm:px-12 lg:px-24 py-12 relative max-w-7xl`}>
         <div className="flex-grow">
           {/* Top Global Navigation Bar Switcher */}
           <div className="flex justify-between items-center mb-16 border-b border-white/5 pb-6">
@@ -82,7 +81,7 @@ export default function App() {
         {/* Global Footer block branding */}
         <footer className="border-t border-white/5 pt-16 mt-24">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
-            <div className="md:col-span-6 space-y-4 text-center md:text-left select-none">
+            <div className="md:col-span-6 space-y-4 text-left select-none">
               <div className="font-headline font-extrabold text-2xl text-white tracking-tighter">
                 {PROFILE_DETAILS.name}
               </div>
@@ -91,7 +90,7 @@ export default function App() {
               </p>
             </div>
 
-            <div className="md:col-span-6 flex flex-col items-center md:items-end justify-between gap-6">
+            <div className="md:col-span-6 flex flex-col items-end justify-between gap-6">
               {/* Connect socials links */}
               <div className="flex gap-4">
                 <a
@@ -129,7 +128,7 @@ export default function App() {
               </div>
 
               {/* Status credits */}
-              <div className="font-mono text-[9px] text-slate-500 uppercase tracking-widest text-center md:text-right select-none">
+              <div className="font-mono text-[9px] text-slate-500 uppercase tracking-widest text-right select-none">
                 © 2026 SYSTEM_ARIJIT. STATUS:{' '}
                 <span className="text-electric-cyan font-bold neon-text-cyan">ONLINE</span>
               </div>

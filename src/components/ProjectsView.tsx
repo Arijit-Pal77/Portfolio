@@ -8,10 +8,9 @@ import SnakeGame from './SnakeGame';
 import TicTacToeGame from './TicTacToeGame';
 
 interface ProjectsViewProps {
-  onOpenContact: () => void;
 }
 
-export default function ProjectsView({ onOpenContact }: ProjectsViewProps) {
+export default function ProjectsView({}: ProjectsViewProps) {
   const [activeInteractiveId, setActiveInteractiveId] = useState<string | null>(null);
 
   const getInteractiveComponent = (id: string) => {

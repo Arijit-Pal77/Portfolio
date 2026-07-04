@@ -4,11 +4,10 @@ import { PROFILE_DETAILS, EDUCATION_MILESTONES } from '../data';
 import { motion } from 'motion/react';
 
 interface ProfileViewProps {
-  onOpenContact: () => void;
   setActiveSection: (sec: string) => void;
 }
 
-export default function ProfileView({ onOpenContact, setActiveSection }: ProfileViewProps) {
+export default function ProfileView({ setActiveSection }: ProfileViewProps) {
   const homeRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
   const educationRef = useRef<HTMLDivElement>(null);

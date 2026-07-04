@@ -2,15 +2,20 @@ import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import ProfileView from './components/ProfileView';
 import ProjectsView from './components/ProjectsView';
-import ContactModal from './components/ContactModal';
+import SettingsModal from './components/SettingsModal';
 import BackgroundScrubber from './components/BackgroundScrubber';
 import { PROFILE_DETAILS } from './data';
-import { Github, Linkedin, Mail, Cpu } from 'lucide-react';
+import { Github, Linkedin, Cpu } from 'lucide-react';
 
 export default function App() {
   const [currentView, setCurrentView] = useState<'profile' | 'projects'>('profile');
   const [activeSection, setActiveSection] = useState<string>('home');
-  const [isContactOpen, setIsContactOpen] = useState<boolean>(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+
+  // Interactive Mainframe Settings
+  const [crtActive, setCrtActive] = useState<boolean>(true);
+  const [ambientGlow, setAmbientGlow] = useState<number>(60);
+  const [soundEffects, setSoundEffects] = useState<boolean>(true);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
 
@@ -23,8 +28,17 @@ export default function App() {
       <BackgroundScrubber />
 
       {/* Decorative ambient lighting bloom */}
-      <div className="absolute top-[-10%] left-[20%] w-[600px] h-[600px] rounded-full bg-electric-cyan/5 blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] rounded-full bg-primary-orange/5 blur-[120px] pointer-events-none"></div>
+      <div 
+        className="absolute top-[-10%] left-[20%] w-[600px] h-[600px] rounded-full bg-electric-cyan/5 blur-[120px] pointer-events-none transition-opacity duration-300"
+        style={{ opacity: ambientGlow / 100 }}
+      ></div>
+      <div 
+        className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] rounded-full bg-primary-orange/5 blur-[120px] pointer-events-none transition-opacity duration-300"
+        style={{ opacity: ambientGlow / 100 }}
+      ></div>
+
+      {/* Global CRT Scanlines Overlay */}
+      {crtActive && <div className="scanline pointer-events-none fixed inset-0 z-[90] opacity-15" />}
 
       {/* Side Vertical Navigation */}
       <Navbar
@@ -32,7 +46,7 @@ export default function App() {
         setCurrentView={setCurrentView}
         activeSection={activeSection}
         setActiveSection={setActiveSection}
-        onOpenContact={() => setIsContactOpen(true)}
+        onOpenSettings={() => setIsSettingsOpen(true)}
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
       />
@@ -40,7 +54,7 @@ export default function App() {
       <main className={`transition-all duration-300 ${isSidebarOpen ? 'ml-28' : 'ml-6 sm:ml-12'} min-h-screen flex flex-col justify-between px-6 sm:px-12 lg:px-24 py-12 relative w-full max-w-[1400px]`}>
         <div className="flex-grow">
           {/* Top Global Navigation Bar Switcher */}
-          <div className="flex justify-between items-center mb-16 border-b border-white/5 pb-6">
+          <div className="sticky top-0 z-40 bg-transparent flex justify-between items-center mb-12 py-4 border-b border-white/5 -mx-6 px-6 sm:-mx-12 sm:px-12 lg:-mx-24 lg:px-24">
             <div className="flex gap-6">
               <button
                 onClick={() => setCurrentView('profile')}
@@ -68,18 +82,15 @@ export default function App() {
           {/* Render Active View */}
           {currentView === 'profile' ? (
             <ProfileView
-              onOpenContact={() => setIsContactOpen(true)}
               setActiveSection={setActiveSection}
             />
           ) : (
-            <ProjectsView
-              onOpenContact={() => setIsContactOpen(true)}
-            />
+            <ProjectsView />
           )}
         </div>
 
         {/* Global Footer block branding */}
-        <footer className="border-t border-white/5 pt-16 mt-24">
+        <footer className="border-t border-white/5 pt-20 mt-48">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
             <div className="md:col-span-6 space-y-4 text-left select-none">
               <div className="font-headline font-extrabold text-2xl text-white tracking-tighter">
@@ -119,12 +130,6 @@ export default function App() {
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                   </svg>
                 </a>
-                <button
-                  onClick={() => setIsContactOpen(true)}
-                  className="w-10 h-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-electric-cyan hover:border-electric-cyan/40 hover:bg-electric-cyan/5 transition-all cursor-pointer"
-                >
-                  <Mail className="w-4 h-4" />
-                </button>
               </div>
 
               {/* Status credits */}
@@ -138,7 +143,16 @@ export default function App() {
       </main>
 
       {/* Interactive Overlays */}
-      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
+      <SettingsModal 
+        isOpen={isSettingsOpen} 
+        onClose={() => setIsSettingsOpen(false)}
+        crtActive={crtActive}
+        setCrtActive={setCrtActive}
+        ambientGlow={ambientGlow}
+        setAmbientGlow={setAmbientGlow}
+        soundEffects={soundEffects}
+        setSoundEffects={setSoundEffects}
+      />
     </div>
   );
 }

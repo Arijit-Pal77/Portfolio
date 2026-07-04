@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, User, GraduationCap, Layers, Terminal, Mail, Zap, Send, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Home, User, GraduationCap, Layers, Terminal, Send, ChevronLeft, ChevronRight, Settings } from 'lucide-react';
 import { TabId } from '../types';
 
 interface NavbarProps {
@@ -7,7 +7,7 @@ interface NavbarProps {
   setCurrentView: (view: 'profile' | 'projects') => void;
   activeSection: string;
   setActiveSection: (sec: string) => void;
-  onOpenContact: () => void;
+  onOpenSettings: () => void;
   isSidebarOpen: boolean;
   setIsSidebarOpen: (isOpen: boolean) => void;
 }
@@ -17,7 +17,7 @@ export default function Navbar({
   setCurrentView,
   activeSection,
   setActiveSection,
-  onOpenContact,
+  onOpenSettings,
   isSidebarOpen,
   setIsSidebarOpen
 }: NavbarProps) {
@@ -40,12 +40,24 @@ export default function Navbar({
     <nav className={`fixed left-4 top-4 bottom-4 w-20 z-50 border border-electric-cyan/20 bg-[#050505]/45 backdrop-blur-xl rounded-2xl flex flex-col items-center py-10 justify-between select-none transition-all duration-300 ${
       isSidebarOpen ? 'translate-x-0' : '-translate-x-[calc(100%+1.5rem)]'
     }`}>
-      {/* Brand Logo - Vertical text */}
-      <div 
-        onClick={() => handleNavClick('profile', 'home')}
-        className="font-headline font-bold text-xl tracking-widest neon-text-cyan vertical-text cursor-pointer hover:opacity-80 transition-all duration-300"
-      >
-        ARIJIT PAL
+      {/* Brand Logo Header */}
+      <div className="flex flex-col items-center gap-4">
+        <div 
+          onClick={() => handleNavClick('profile', 'home')}
+          className="w-10 h-10 rounded-xl border border-electric-cyan/25 overflow-hidden shadow-[0_0_15px_rgba(0,243,255,0.15)] hover:shadow-[0_0_25px_rgba(0,243,255,0.35)] hover:border-electric-cyan/50 hover:scale-105 transition-all duration-300 cursor-pointer flex items-center justify-center bg-black"
+        >
+          <img 
+            src="/Photos/avatar.jpeg" 
+            className="w-full h-full object-cover" 
+            alt="Arijit Pal"
+          />
+        </div>
+        <div 
+          onClick={() => handleNavClick('profile', 'home')}
+          className="font-headline font-bold text-base tracking-widest neon-text-cyan vertical-text cursor-pointer hover:opacity-80 transition-all duration-300"
+        >
+          ARIJIT PAL
+        </div>
       </div>
 
       {/* Nav Icons list */}
@@ -109,26 +121,18 @@ export default function Navbar({
             Projects
           </span>
         </button>
-
-        {/* Mail */}
-        <button
-          onClick={onOpenContact}
-          className="group relative cursor-pointer"
-        >
-          <Mail className="w-5.5 h-5.5 text-electric-cyan/60 hover:text-electric-cyan hover:neon-text-cyan transition-all duration-300" />
-          <span className="absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap rounded">
-            Contact
-          </span>
-        </button>
       </div>
 
-      {/* Action / Trigger Button at bottom */}
+      {/* Settings Action Button at bottom */}
       <button
-        onClick={onOpenContact}
-        className="bg-primary-amber/10 border border-primary-amber/40 text-primary-amber p-2.5 rounded-lg hover:bg-primary-amber hover:text-background transition-all duration-300 cursor-pointer shadow-[0_0_10px_rgba(255,183,0,0.2)] animate-pulse"
-        title="Trigger Contact Form"
+        onClick={onOpenSettings}
+        className="bg-electric-cyan/10 border border-electric-cyan/30 text-electric-cyan p-2.5 rounded-lg hover:bg-electric-cyan hover:text-background transition-all duration-300 cursor-pointer shadow-[0_0_10px_rgba(0,243,255,0.15)] group relative"
+        title="Settings"
       >
-        <Zap className="w-4 h-4" />
+        <Settings className="w-4 h-4" />
+        <span className="absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap rounded pointer-events-none">
+          Settings
+        </span>
       </button>
 
       {/* absolute sidebar toggle button */}

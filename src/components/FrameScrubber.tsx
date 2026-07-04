@@ -2,10 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Play, Pause, RotateCcw, Sliders, Eye, Grid, Sparkles, Compass, Cpu, Info } from 'lucide-react';
 
 interface FrameScrubberProps {
-  onOpenContact?: () => void;
 }
 
-export default function FrameScrubber({ onOpenContact }: FrameScrubberProps) {
+export default function FrameScrubber({}: FrameScrubberProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scroll Sequence Background</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+  <!-- Preloader Screen -->
+  <div id="preloader" class="preloader-overlay">
+    <div class="preloader-content">
+      <div class="spinner-container">
+        <svg class="progress-ring" width="120" height="120">
+          <circle class="progress-ring__circle-bg" stroke="rgba(255,255,255,0.05)" stroke-width="4" fill="transparent" r="50" cx="60" cy="60"/>
+          <circle id="preloader-circle" class="progress-ring__circle" stroke="url(#spinner-gradient)" stroke-width="6" fill="transparent" r="50" cx="60" cy="60"/>
+          <defs>
+            <linearGradient id="spinner-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#3b82f6" />
+              <stop offset="50%" stop-color="#8b5cf6" />
+              <stop offset="100%" stop-color="#ec4899" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="loading-percent" id="loading-percent">0%</div>
+      </div>
+      <h1 class="loading-title">Loading Sequence</h1>
+      <p class="loading-subtitle">Caching cinematic frame sequence...</p>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="loading-bar"></div>
+      </div>
+      <div class="loading-status" id="loading-status">0 / 240 frames loaded</div>
+    </div>
+  </div>
+
+  <!-- Interactive Scroll Content -->
+  <div class="app-container">
+    <!-- Main Interactive Area (Canvas pins here) -->
+    <div class="canvas-viewport" id="canvas-viewport">
+      <canvas id="sequence-canvas"></canvas>
+      <div class="viewport-overlay"></div>
+      
+      <!-- Floating Scroll Indicator -->
+      <div class="scroll-helper" id="scroll-helper">
+        <span class="scroll-mouse">
+          <span class="scroll-wheel"></span>
+        </span>
+        <span class="scroll-text">Scroll to Experience</span>
+      </div>
+    </div>
+
+    <!-- Empty scroll-track to provide height for scrolling and page scrub -->
+    <div class="scroll-track"></div>
+  </div>
+
+  <!-- Application Script -->
+  <script src="app.js"></script>
+</body>
+</html>

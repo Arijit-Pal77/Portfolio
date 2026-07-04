@@ -265,7 +265,7 @@ export default function DiseaseScanner() {
                 className="space-y-4"
               >
                 <div className="bg-black/40 border border-white/10 p-5 rounded-xl backdrop-blur-md">
-                  <div className="flex justify-between items-start gap-4 mb-4">
+                  <div className="flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-4 mb-4">
                     <div>
                       <div className="text-[10px] font-mono text-slate-400 uppercase font-semibold">IDENTIFIED PATHOGEN</div>
                       <h5 className="font-headline text-lg font-bold text-white mt-1">

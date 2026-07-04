@@ -53,12 +53,12 @@ export default function ProjectsView({}: ProjectsViewProps) {
   return (
     <div className="min-h-screen relative scanline py-12">
       {/* Header Section */}
-      <header className="mb-24 relative select-none">
+      <header className="mb-12 sm:mb-24 relative select-none">
         <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-primary-orange/10 border border-primary-orange/30 text-primary-orange mb-8 clip-path-polygon">
           <Code className="w-3.5 h-3.5" />
           <span className="font-mono text-[10px] uppercase tracking-[0.2em]">Data Repository / Selected Works</span>
         </div>
-        <h1 className="font-headline text-5xl lg:text-7xl font-bold tracking-tight mb-6">
+        <h1 className="font-headline text-3xl sm:text-5xl lg:text-7xl font-bold tracking-tight mb-4 sm:mb-6">
           Engineering <br />
           <span className="neon-text-orange italic">Intelligent</span>{' '}
           <span className="text-white opacity-90">Solutions.</span>
@@ -71,8 +71,8 @@ export default function ProjectsView({}: ProjectsViewProps) {
       {/* Interactive Playground Sandbox */}
       {activeInteractiveId && (
         <div className="mb-16 border-t border-b border-electric-cyan/20 bg-electric-cyan/[0.01] py-8 relative">
-          <div className="max-w-4xl mx-auto px-4">
-            <div className="flex justify-between items-center mb-4">
+          <div className="max-w-4xl mx-auto px-2 sm:px-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-4">
               <span className="text-[10px] font-mono text-primary-orange uppercase tracking-wider flex items-center gap-1.5">
                 <Cpu className="w-3.5 h-3.5 text-primary-orange animate-pulse" />
                 Live Matrix Sandpit: {PROJECTS.find(p => p.id === activeInteractiveId)?.title}
@@ -90,11 +90,11 @@ export default function ProjectsView({}: ProjectsViewProps) {
       )}
 
       {/* Projects Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 mb-32">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 mb-16 sm:mb-32">
         {/* Plant Disease Detection (Large Featured) */}
         <article className="md:col-span-8 group">
           <div className="glass-cyber clip-corner h-full flex flex-col relative overflow-hidden group-hover:neon-border-orange transition-all duration-500">
-            <div className="relative h-80 overflow-hidden border-b border-primary-orange/20">
+            <div className="relative h-48 sm:h-80 overflow-hidden border-b border-primary-orange/20">
               <img
                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
                 src={PROJECTS[0].image}
@@ -103,10 +103,10 @@ export default function ProjectsView({}: ProjectsViewProps) {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
             </div>
-            <div className="p-8 lg:p-10 flex-grow relative flex flex-col justify-between">
+            <div className="p-5 sm:p-8 lg:p-10 flex-grow relative flex flex-col justify-between">
               <div>
                 <div className="flex justify-between items-start mb-4">
-                  <h3 className="font-headline text-3xl font-bold text-white group-hover:neon-text-orange transition-colors">
+                  <h3 className="font-headline text-xl sm:text-3xl font-bold text-white group-hover:neon-text-orange transition-colors">
                     {PROJECTS[0].title}
                   </h3>
                   <button
@@ -117,7 +117,7 @@ export default function ProjectsView({}: ProjectsViewProps) {
                     <Eye className="w-5 h-5" />
                   </button>
                 </div>
-                <p className="font-body text-sm text-slate-300 mb-8 leading-relaxed max-w-xl font-medium">
+                <p className="font-body text-xs sm:text-sm text-slate-300 mb-6 sm:mb-8 leading-relaxed max-w-xl font-medium">
                   {PROJECTS[0].description}
                 </p>
               </div>
@@ -137,7 +137,7 @@ export default function ProjectsView({}: ProjectsViewProps) {
         {/* AI Video Caption Generator */}
         <article className="md:col-span-4 group">
           <div className="glass-cyber clip-corner h-full flex flex-col group-hover:neon-border-cyan transition-all duration-500">
-            <div className="relative h-64 overflow-hidden border-b border-electric-cyan/20">
+            <div className="relative h-48 sm:h-64 overflow-hidden border-b border-electric-cyan/20">
               <img
                 className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
                 src={PROJECTS[1].image}
@@ -152,7 +152,7 @@ export default function ProjectsView({}: ProjectsViewProps) {
                 <Play className="w-5 h-5 fill-current ml-0.5" />
               </button>
             </div>
-            <div className="p-8">
+            <div className="p-5 sm:p-8">
               <h3 className="font-headline text-xl font-bold text-white mb-3 group-hover:neon-text-cyan transition-colors">
                 {PROJECTS[1].title}
               </h3>
@@ -172,7 +172,7 @@ export default function ProjectsView({}: ProjectsViewProps) {
 
         {/* Automatic Birthday Wisher */}
         <article className="md:col-span-4 group">
-          <div className="glass-cyber clip-corner h-full p-8 border-l-4 border-l-primary-orange/40 relative group-hover:neon-border-orange transition-all duration-500">
+          <div className="glass-cyber clip-corner h-full p-5 sm:p-8 border-l-4 border-l-primary-orange/40 relative group-hover:neon-border-orange transition-all duration-500">
             <div className="flex justify-between mb-8 select-none">
               <div className="w-12 h-12 bg-primary-orange/10 border border-primary-orange/20 flex items-center justify-center">
                 <Mail className="w-5 h-5 text-primary-orange" />
@@ -202,7 +202,7 @@ export default function ProjectsView({}: ProjectsViewProps) {
 
         {/* Snake Game */}
         <article className="md:col-span-4 group">
-          <div className="glass-cyber clip-corner h-full p-8 relative overflow-hidden group-hover:neon-border-cyan transition-all duration-500">
+          <div className="glass-cyber clip-corner h-full p-5 sm:p-8 relative overflow-hidden group-hover:neon-border-cyan transition-all duration-500">
             <div className="absolute -right-6 -bottom-6 opacity-5 group-hover:opacity-10 transition-opacity pointer-events-none select-none">
               <Gamepad2 className="w-28 h-28" />
             </div>
@@ -236,7 +236,7 @@ export default function ProjectsView({}: ProjectsViewProps) {
 
         {/* Tic Tac Toe AI */}
         <article className="md:col-span-4 group">
-          <div className="glass-cyber clip-corner h-full p-8 border-r-4 border-r-electric-cyan/40 group-hover:neon-border-cyan transition-all duration-500 flex flex-col justify-between">
+          <div className="glass-cyber clip-corner h-full p-5 sm:p-8 border-r-4 border-r-electric-cyan/40 group-hover:neon-border-cyan transition-all duration-500 flex flex-col justify-between">
             <div>
               <h3 className="font-headline text-xl font-bold text-white mb-4">
                 {PROJECTS[4].title}

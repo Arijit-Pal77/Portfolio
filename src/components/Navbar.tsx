@@ -37,11 +37,15 @@ export default function Navbar({
   };
 
   return (
-    <nav className={`fixed left-4 top-4 bottom-4 w-20 z-50 border border-electric-cyan/20 bg-[#050505]/45 backdrop-blur-xl rounded-2xl flex flex-col items-center py-10 justify-between select-none transition-all duration-300 ${
-      isSidebarOpen ? 'translate-x-0' : '-translate-x-[calc(100%+1.5rem)]'
+    <nav className={`fixed z-50 border border-electric-cyan/20 bg-[#050505]/80 backdrop-blur-xl select-none transition-all duration-300
+      /* Mobile: horizontal bottom bar */
+      bottom-0 left-0 right-0 h-16 flex flex-row items-center justify-around px-4 rounded-t-2xl
+      /* Desktop: vertical left sidebar */
+      md:bottom-4 md:left-4 md:top-4 md:right-auto md:h-auto md:w-20 md:rounded-2xl md:flex-col md:items-center md:py-10 md:justify-between md:px-0 ${
+      isSidebarOpen ? 'md:translate-x-0' : 'md:-translate-x-[calc(100%+1.5rem)]'
     }`}>
-      {/* Brand Logo Header */}
-      <div className="flex flex-col items-center gap-4">
+      {/* Brand Logo Header - hidden on mobile bottom bar, shown on desktop sidebar */}
+      <div className="hidden md:flex flex-col items-center gap-4">
         <div 
           onClick={() => handleNavClick('profile', 'home')}
           className="w-10 h-10 rounded-xl border border-electric-cyan/25 overflow-hidden shadow-[0_0_15px_rgba(0,243,255,0.15)] hover:shadow-[0_0_25px_rgba(0,243,255,0.35)] hover:border-electric-cyan/50 hover:scale-105 transition-all duration-300 cursor-pointer flex items-center justify-center bg-black"
@@ -61,7 +65,7 @@ export default function Navbar({
       </div>
 
       {/* Nav Icons list */}
-      <div className="flex flex-col gap-9 items-center">
+      <div className="flex flex-row gap-6 items-center md:flex-col md:gap-9">
         {/* Home */}
         <button
           onClick={() => handleNavClick('profile', 'home')}
@@ -72,7 +76,7 @@ export default function Navbar({
               ? 'text-primary-amber neon-text-amber scale-110'
               : 'text-electric-cyan/60 hover:text-electric-cyan'
           }`} />
-          <span className="absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap rounded">
+          <span className="hidden md:block absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap rounded">
             Home
           </span>
         </button>
@@ -87,7 +91,7 @@ export default function Navbar({
               ? 'text-primary-amber neon-text-amber scale-110'
               : 'text-electric-cyan/60 hover:text-electric-cyan'
           }`} />
-          <span className="absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap rounded">
+          <span className="hidden md:block absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap rounded">
             About
           </span>
         </button>
@@ -102,7 +106,7 @@ export default function Navbar({
               ? 'text-primary-amber neon-text-amber scale-110'
               : 'text-electric-cyan/60 hover:text-electric-cyan'
           }`} />
-          <span className="absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap rounded">
+          <span className="hidden md:block absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap rounded">
             Education
           </span>
         </button>
@@ -117,28 +121,28 @@ export default function Navbar({
               ? 'text-primary-orange neon-text-orange scale-110'
               : 'text-electric-cyan/60 hover:text-electric-cyan'
           }`} />
-          <span className="absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap rounded">
+          <span className="hidden md:block absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap rounded">
             Projects
           </span>
         </button>
       </div>
 
-      {/* Settings Action Button at bottom */}
+      {/* Settings Action Button */}
       <button
         onClick={onOpenSettings}
         className="bg-electric-cyan/10 border border-electric-cyan/30 text-electric-cyan p-2.5 rounded-lg hover:bg-electric-cyan hover:text-background transition-all duration-300 cursor-pointer shadow-[0_0_10px_rgba(0,243,255,0.15)] group relative"
         title="Settings"
       >
         <Settings className="w-4 h-4" />
-        <span className="absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap rounded pointer-events-none">
+        <span className="hidden md:block absolute left-full ml-4 px-2 py-1 bg-[#101010] border border-electric-cyan/20 text-[10px] font-mono text-electric-cyan opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap rounded pointer-events-none">
           Settings
         </span>
       </button>
 
-      {/* absolute sidebar toggle button */}
+      {/* absolute sidebar toggle button - desktop only */}
       <button
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className="w-9 h-9 absolute top-6 -right-9 border border-l-0 border-electric-cyan/20 bg-[#050505]/45 backdrop-blur-xl text-electric-cyan/60 rounded-r-lg flex items-center justify-center hover:text-electric-cyan hover:bg-electric-cyan/5 hover:border-electric-cyan/40 transition-all cursor-pointer shadow-[2px_0_10px_rgba(0,0,0,0.5)]"
+        className="hidden md:flex w-9 h-9 absolute top-6 -right-9 border border-l-0 border-electric-cyan/20 bg-[#050505]/45 backdrop-blur-xl text-electric-cyan/60 rounded-r-lg items-center justify-center hover:text-electric-cyan hover:bg-electric-cyan/5 hover:border-electric-cyan/40 transition-all cursor-pointer shadow-[2px_0_10px_rgba(0,0,0,0.5)]"
         title={isSidebarOpen ? "Collapse Sidebar" : "Expand Sidebar"}
       >
         {isSidebarOpen ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}

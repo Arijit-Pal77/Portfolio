@@ -135,10 +135,10 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
   };
 
   return (
-    <div className="space-y-36 pb-32">
+    <div className="space-y-20 sm:space-y-36 pb-24 sm:pb-32">
       {/* 1. Home Section */}
-      <section id="home" ref={homeRef} className="pt-16 min-h-[90vh] flex flex-col justify-center scroll-mt-24 relative overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+      <section id="home" ref={homeRef} className="pt-8 sm:pt-16 min-h-[85vh] sm:min-h-[90vh] flex flex-col justify-center scroll-mt-24 relative overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
           {/* Left profile graphics frame */}
           <motion.div
             variants={imageVariants}
@@ -147,7 +147,7 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
             className="lg:col-span-5 flex justify-center lg:justify-start"
           >
             <div 
-              className="relative w-72 sm:w-80 aspect-square group cursor-pointer"
+              className="relative w-36 sm:w-72 md:w-80 aspect-square group cursor-pointer"
               onClick={() => setIsImageTapped(!isImageTapped)}
             >
               {/* Outer Cyberpunk bracket animations */}
@@ -191,7 +191,7 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
               variants={nameContainerVariants}
               initial="hidden"
               animate="visible"
-              className="font-headline text-5xl lg:text-6xl font-extrabold text-white tracking-tight"
+              className="font-headline text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight"
             >
               I am{" "}
               <span className="neon-text-cyan inline-block">
@@ -236,7 +236,7 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
               animate="visible"
               className="w-full space-y-6 flex flex-col items-center lg:items-start"
             >
-              <div className="w-full max-w-xl border-t border-b border-white/5 py-4 grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-[10px] text-slate-500 uppercase">
+              <div className="w-full max-w-xl border-t border-b border-white/5 py-4 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 font-mono text-[10px] text-slate-500 uppercase">
                 <div className="flex items-center gap-2 justify-center lg:justify-start">
                   <MapPin className="w-3.5 h-3.5 text-electric-cyan" />
                   <span>Sector: Chandigarh, Punjab, India</span>

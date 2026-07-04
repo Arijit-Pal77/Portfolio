@@ -29,11 +29,11 @@ export default function App() {
 
       {/* Decorative ambient lighting bloom */}
       <div 
-        className="absolute top-[-10%] left-[20%] w-[600px] h-[600px] rounded-full bg-electric-cyan/5 blur-[120px] pointer-events-none transition-opacity duration-300"
+        className="absolute top-[-10%] left-[20%] w-[80vw] max-w-[600px] h-[80vw] max-h-[600px] rounded-full bg-electric-cyan/5 blur-[120px] pointer-events-none transition-opacity duration-300"
         style={{ opacity: ambientGlow / 100 }}
       ></div>
       <div 
-        className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] rounded-full bg-primary-orange/5 blur-[120px] pointer-events-none transition-opacity duration-300"
+        className="absolute bottom-[-10%] right-[10%] w-[70vw] max-w-[500px] h-[70vw] max-h-[500px] rounded-full bg-primary-orange/5 blur-[120px] pointer-events-none transition-opacity duration-300"
         style={{ opacity: ambientGlow / 100 }}
       ></div>
 
@@ -51,10 +51,10 @@ export default function App() {
         setIsSidebarOpen={setIsSidebarOpen}
       />
 
-      <main className={`transition-all duration-300 ${isSidebarOpen ? 'ml-28' : 'ml-6 sm:ml-12'} min-h-screen flex flex-col justify-between px-6 sm:px-12 lg:px-24 py-12 relative w-full max-w-[1400px]`}>
+      <main className={`transition-all duration-300 min-h-screen flex flex-col justify-between px-4 sm:px-6 lg:px-24 py-12 pb-24 md:pb-12 relative w-full max-w-[1400px] ${isSidebarOpen ? 'md:ml-28' : 'md:ml-6 lg:ml-12'}`}>
         <div className="flex-grow">
           {/* Top Global Navigation Bar Switcher */}
-          <div className="sticky top-0 z-40 bg-transparent flex justify-between items-center mb-12 py-4 border-b border-white/5 -mx-6 px-6 sm:-mx-12 sm:px-12 lg:-mx-24 lg:px-24">
+          <div className="sticky top-0 z-40 bg-transparent flex justify-between items-center mb-8 md:mb-12 py-4 border-b border-white/5 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-24 lg:px-24">
             <div className="flex gap-6">
               <button
                 onClick={() => setCurrentView('profile')}
@@ -101,7 +101,7 @@ export default function App() {
               </p>
             </div>
 
-            <div className="md:col-span-6 flex flex-col items-end justify-between gap-6">
+            <div className="md:col-span-6 flex flex-col items-center md:items-end justify-between gap-6">
               {/* Connect socials links */}
               <div className="flex gap-4">
                 <a
@@ -133,7 +133,7 @@ export default function App() {
               </div>
 
               {/* Status credits */}
-              <div className="font-mono text-[9px] text-slate-500 uppercase tracking-widest text-right select-none">
+              <div className="font-mono text-[9px] text-slate-500 uppercase tracking-widest text-center md:text-right select-none">
                 © 2026 SYSTEM_ARIJIT. STATUS:{' '}
                 <span className="text-electric-cyan font-bold neon-text-cyan">ONLINE</span>
               </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Mail, Download, Code, GraduationCap, Cpu, ShieldCheck, MapPin, ExternalLink, Compass, Phone } from 'lucide-react';
 import { PROFILE_DETAILS, EDUCATION_MILESTONES } from '../data';
 import { motion } from 'motion/react';
@@ -12,6 +12,7 @@ export default function ProfileView({ onOpenContact, setActiveSection }: Profile
   const homeRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
   const educationRef = useRef<HTMLDivElement>(null);
+  const [isImageTapped, setIsImageTapped] = useState(false);
 
   // Scroll Observer to highlight active sections in side nav!
   useEffect(() => {
@@ -151,10 +152,20 @@ export default function ProfileView({ onOpenContact, setActiveSection }: Profile
             animate="visible"
             className="lg:col-span-5 flex justify-center lg:justify-start"
           >
-            <div className="relative w-72 sm:w-80 aspect-square group">
+            <div 
+              className="relative w-72 sm:w-80 aspect-square group cursor-pointer"
+              onClick={() => setIsImageTapped(!isImageTapped)}
+            >
               {/* Outer Cyberpunk bracket animations */}
-              <div className="absolute -inset-4 border border-electric-cyan/20 rounded-2xl group-hover:border-electric-cyan/50 transition-all duration-500"></div>
-              <div className="absolute -inset-1 border-2 border-dashed border-primary-amber/30 rounded-2xl group-hover:border-primary-amber/70 transition-all duration-700 animate-spin" style={{ animationDuration: '60s' }}></div>
+              <div className={`absolute -inset-4 border rounded-2xl group-hover:border-electric-cyan/50 transition-all duration-500 ${
+                isImageTapped ? 'border-electric-cyan/50' : 'border-electric-cyan/20'
+              }`}></div>
+              <div 
+                className={`absolute -inset-1 border-2 border-dashed rounded-2xl group-hover:border-primary-amber/70 transition-all duration-700 animate-spin ${
+                  isImageTapped ? 'border-primary-amber/70' : 'border-primary-amber/30'
+                }`} 
+                style={{ animationDuration: '60s' }}
+              ></div>
 
               {/* Glowing Corner Accents */}
               <div className="absolute -top-4 -left-4 w-6 h-6 border-t-2 border-l-2 border-electric-cyan"></div>
@@ -163,12 +174,18 @@ export default function ProfileView({ onOpenContact, setActiveSection }: Profile
               <div className="absolute -bottom-4 -right-4 w-6 h-6 border-b-2 border-r-2 border-electric-cyan"></div>
 
               {/* Core Image container */}
-              <div className="w-full h-full rounded-xl overflow-hidden border border-electric-cyan/30 relative bg-[#0b0b0b] shadow-[0_0_20px_rgba(0,243,255,0.15)] group-hover:shadow-[0_0_35px_rgba(0,243,255,0.3)] transition-all duration-500">
+              <div className={`w-full h-full rounded-xl overflow-hidden border border-electric-cyan/30 relative bg-[#0b0b0b] transition-all duration-500 ${
+                isImageTapped 
+                  ? 'shadow-[0_0_35px_rgba(0,243,255,0.35)]' 
+                  : 'shadow-[0_0_20px_rgba(0,243,255,0.15)] group-hover:shadow-[0_0_35px_rgba(0,243,255,0.35)]'
+              }`}>
                 <img
                   src={PROFILE_DETAILS.avatar}
                   alt={PROFILE_DETAILS.name}
                   referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover grayscale brightness-95 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-750"
+                  className={`w-full h-full object-cover brightness-95 transition-all duration-750 group-hover:grayscale-0 group-hover:scale-105 ${
+                    isImageTapped ? 'grayscale-0 scale-105' : 'grayscale'
+                  }`}
                 />
               </div>
             </div>

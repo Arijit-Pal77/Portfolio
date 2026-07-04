@@ -32,11 +32,6 @@ export default function ProfileView({ onOpenContact, setActiveSection }: Profile
     return () => window.removeEventListener('scroll', handleScroll);
   }, [setActiveSection]);
 
-  const handleDownloadDossier = () => {
-    // Open a virtual dossier log
-    alert("DOWNLOADING MILITARY-GRADE DOSSIER LOG:\nName: Arijit Pal\nClassification: ML Engineer\nSource: local_db_host");
-  };
-
   // Animation Variants
   const name = PROFILE_DETAILS.name;
   const nameLetters = Array.from(name);
@@ -266,13 +261,15 @@ export default function ProfileView({ onOpenContact, setActiveSection }: Profile
               </div>
 
               <div className="flex flex-wrap gap-4 justify-center lg:justify-start pt-2">
-                <button
-                  onClick={handleDownloadDossier}
+                <a
+                  href="/Arijit_Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="px-6 py-3 border border-white/20 hover:border-primary-amber hover:text-primary-amber text-white font-bold text-xs uppercase tracking-widest rounded transition-all cursor-pointer flex items-center gap-2"
                 >
                   <Download className="w-3.5 h-3.5" />
                   Access Resume
-                </button>
+                </a>
               </div>
             </motion.div>
           </div>

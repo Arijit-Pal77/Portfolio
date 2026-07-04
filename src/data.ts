@@ -61,6 +61,22 @@ export const EDUCATION_MILESTONES: Education[] = [
     institution: 'Chandigarh University',
     description: 'Currently pursuing a specialization in Artificial Intelligence and Machine Learning. Immersed in core CS fundamentals while exploring advanced topics like neural networks, statistical modeling, and data structures.',
     skills: ['Mathematics', 'Python', 'Data Analytics']
+  },
+  {
+    period: '2024 - 2025',
+    degree: 'Higher Secondary Education',
+    specialization: 'SCIENCE STREAM (90.6% MARKS)',
+    institution: 'Bankura Hindu High School',
+    description: 'Completed Higher Secondary (12th Grade) board examinations with an aggregate score of 90.6%. Specialized in Physics, Chemistry, Mathematics, and Computer Science.',
+    skills: ['Physics', 'Chemistry', 'Mathematics', 'Computer Science']
+  },
+  {
+    period: '2022 - 2023',
+    degree: 'Matriculation',
+    specialization: 'GENERAL ACADEMICS (89.0% MARKS)',
+    institution: 'Patrasayer Bamira Gurudas Institution',
+    description: 'Completed Secondary Education (10th Grade) board examinations with an aggregate score of 89.0%. Developed strong foundations in Mathematics and Physical Sciences.',
+    skills: ['Mathematics', 'Physical Sciences', 'Life Sciences', 'Logical Reasoning']
   }
 ];
 

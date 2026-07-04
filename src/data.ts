@@ -93,7 +93,7 @@ export const PROFILE_DETAILS = {
   socials: {
     github: 'https://github.com/Arijit-Pal77',
     linkedin: 'https://www.linkedin.com/in/arijit-pal-23a43b378/',
-    x: 'https://x.com',
+    x: 'https://x.com/ArijitPal160451',
     email: 'mailto:arijitpal2350@gmail.com',
     phone: 'tel:+919832434164'
   }

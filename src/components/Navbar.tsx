@@ -22,6 +22,42 @@ export default function Navbar({
   isSidebarOpen,
   setIsSidebarOpen
 }: NavbarProps) {
+  const [logoError, setLogoError] = React.useState(false);
+
+  const logoVariants = {
+    normal: {
+      rotate: 0,
+      scale: 1,
+      transition: {
+        rotate: {
+          type: "spring",
+          stiffness: 450, // High-tension spring for energetic return
+          damping: 24,    // Premium controlled damping (minimal, high-end wobble/overshoot like a mechanical crown)
+          restDelta: 0.001
+        },
+        scale: {
+          type: 'spring',
+          stiffness: 400,
+          damping: 25
+        }
+      }
+    },
+    hover: {
+      scale: 1.08,
+      rotate: 360,
+      transition: {
+        rotate: {
+          ease: "linear",
+          duration: 2.5, // Controlled 2.5 seconds for one full rotation
+        },
+        scale: {
+          type: 'spring',
+          stiffness: 300,
+          damping: 20
+        }
+      }
+    }
+  };
 
   const handleNavClick = (view: 'profile' | 'projects', sectionId?: string) => {
     // Skip scroll if already on the same view and section
@@ -47,21 +83,21 @@ export default function Navbar({
   };
 
   // Nav item component with smooth spring-animated active indicator
-  const NavItem = ({ 
-    icon: Icon, 
-    label, 
-    view, 
+  const NavItem = ({
+    icon: Icon,
+    label,
+    view,
     section,
     activeColor = 'amber'
-  }: { 
-    icon: React.ElementType; 
-    label: string; 
-    view: 'profile' | 'projects'; 
+  }: {
+    icon: React.ElementType;
+    label: string;
+    view: 'profile' | 'projects';
     section?: string;
     activeColor?: 'amber' | 'orange';
   }) => {
     const active = section ? isNavActive(view, section) : isNavActive(view);
-    const colorClasses = activeColor === 'orange' 
+    const colorClasses = activeColor === 'orange'
       ? { active: 'text-primary-orange', glow: 'neon-text-orange', dot: 'bg-primary-orange' }
       : { active: 'text-primary-amber', glow: 'neon-text-amber', dot: 'bg-primary-amber' };
 
@@ -76,13 +112,12 @@ export default function Navbar({
           }}
           transition={{ type: 'spring', stiffness: 400, damping: 25 }}
         >
-          <Icon className={`w-5.5 h-5.5 transition-colors duration-300 ${
-            active
+          <Icon className={`w-5.5 h-5.5 transition-colors duration-300 ${active
               ? `${colorClasses.active} ${colorClasses.glow}`
               : 'text-electric-cyan/60 hover:text-electric-cyan'
-          }`} />
+            }`} />
         </motion.div>
-        
+
         {/* Active dot indicator */}
         <AnimatePresence>
           {active && (
@@ -109,25 +144,35 @@ export default function Navbar({
       /* Mobile: horizontal bottom bar */
       bottom-0 left-0 right-0 h-16 flex flex-row items-center justify-around px-4 rounded-t-2xl
       /* Desktop: vertical left sidebar */
-      md:bottom-4 md:left-4 md:top-4 md:right-auto md:h-auto md:w-20 md:rounded-2xl md:flex-col md:items-center md:py-10 md:justify-between md:px-0 ${
-      isSidebarOpen ? 'md:translate-x-0' : 'md:-translate-x-[calc(100%+1.5rem)]'
-    }`}>
+      md:bottom-4 md:left-4 md:top-4 md:right-auto md:h-auto md:w-20 md:rounded-2xl md:flex-col md:items-center md:py-10 md:justify-between md:px-0 ${isSidebarOpen ? 'md:translate-x-0' : 'md:-translate-x-[calc(100%+1.5rem)]'
+      }`}>
       {/* Brand Logo Header - hidden on mobile bottom bar, shown on desktop sidebar */}
       <div className="hidden md:flex flex-col items-center gap-3">
-        <motion.div 
+        <motion.div
           onClick={() => handleNavClick('profile', 'home')}
-          className="group w-12 h-12 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(0,243,255,0.15)] hover:shadow-[0_0_25px_rgba(0,243,255,0.35)] transition-all duration-300 cursor-pointer flex items-center justify-center bg-[#0a0a0a] border border-electric-cyan/20 hover:border-electric-cyan/50"
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.95 }}
-          transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+          className="group w-12 h-12 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(0,243,255,0.15)] hover:shadow-[0_0_30px_rgba(0,243,255,0.45)] transition-all duration-300 cursor-pointer flex items-center justify-center bg-transparent border border-electric-cyan/20 hover:border-electric-cyan/50"
+          variants={logoVariants}
+          initial="normal"
+          animate="normal"
+          whileHover="hover"
+          whileTap="hover"
         >
-          <img 
-            src="/Photos/logo.jpeg" 
-            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
-            alt="AP Logo"
-          />
+          {!logoError ? (
+            <img
+              src="/Photos/logo.jpeg"
+              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 mix-blend-screen"
+              alt="AP Logo"
+              onError={() => setLogoError(true)}
+            />
+          ) : (
+            <img
+              src="/Photos/avatar.jpeg"
+              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 mix-blend-screen"
+              alt="AP Logo Fallback"
+            />
+          )}
         </motion.div>
-        <div 
+        <div
           onClick={() => handleNavClick('profile', 'home')}
           className="font-headline font-bold text-sm tracking-widest neon-text-cyan vertical-text cursor-pointer hover:opacity-80 transition-all duration-300"
         >

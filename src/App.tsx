@@ -45,11 +45,11 @@ export default function App() {
       <BackgroundScrubber />
 
       {/* Decorative ambient lighting bloom */}
-      <div 
+      <div
         className="absolute top-[-10%] left-[20%] w-[80vw] max-w-[600px] h-[80vw] max-h-[600px] rounded-full bg-electric-cyan/5 blur-[120px] pointer-events-none transition-opacity duration-300"
         style={{ opacity: ambientGlow / 100, willChange: 'opacity' }}
       ></div>
-      <div 
+      <div
         className="absolute bottom-[-10%] right-[10%] w-[70vw] max-w-[500px] h-[70vw] max-h-[500px] rounded-full bg-primary-orange/5 blur-[120px] pointer-events-none transition-opacity duration-300"
         style={{ opacity: ambientGlow / 100, willChange: 'opacity' }}
       ></div>
@@ -68,28 +68,26 @@ export default function App() {
         setIsSidebarOpen={setIsSidebarOpen}
       />
 
-      <main className={`transition-all duration-300 min-h-screen flex flex-col justify-between px-4 sm:px-6 lg:px-24 py-12 pb-24 md:pb-12 relative w-full max-w-[1400px] ${isSidebarOpen ? 'md:ml-28' : 'md:ml-6 lg:ml-12'}`}>
+      <main className={`transition-all duration-300 min-h-screen flex flex-col justify-between px-4 sm:px-6 lg:px-24 pt-4 md:pt-6 pb-24 md:pb-12 relative w-full max-w-[1400px] ${isSidebarOpen ? 'md:ml-28' : 'md:ml-6 lg:ml-12'}`}>
         <div className="flex-grow">
           {/* Top Global Navigation Bar Switcher */}
-          <div className="sticky top-0 z-40 bg-transparent flex justify-between items-center mb-8 md:mb-12 py-4 border-b border-white/5 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-24 lg:px-24">
+          <div className="sticky top-0 z-40 bg-transparent flex justify-between items-center mb-6 md:mb-8 py-2.5 border-b border-white/5 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-24 lg:px-24">
             <div className="flex gap-6">
               <button
                 onClick={() => setCurrentView('profile')}
-                className={`font-headline text-xs font-bold tracking-widest uppercase border-b-2 pb-2 transition-all cursor-pointer ${
-                  currentView === 'profile'
+                className={`font-headline text-xs font-bold tracking-widest uppercase border-b-2 pb-2 transition-all cursor-pointer ${currentView === 'profile'
                     ? 'text-primary-amber border-primary-amber neon-text-amber'
                     : 'text-slate-500 border-transparent hover:text-white'
-                }`}
+                  }`}
               >
                 PROFILE LOGS
               </button>
               <button
                 onClick={() => setCurrentView('projects')}
-                className={`font-headline text-xs font-bold tracking-widest uppercase border-b-2 pb-2 transition-all cursor-pointer ${
-                  currentView === 'projects'
+                className={`font-headline text-xs font-bold tracking-widest uppercase border-b-2 pb-2 transition-all cursor-pointer ${currentView === 'projects'
                     ? 'text-primary-orange border-primary-orange neon-text-orange'
                     : 'text-slate-500 border-transparent hover:text-white'
-                }`}
+                  }`}
               >
                 SOFTWARE PROJECTS
               </button>
@@ -172,8 +170,8 @@ export default function App() {
       </main>
 
       {/* Interactive Overlays */}
-      <SettingsModal 
-        isOpen={isSettingsOpen} 
+      <SettingsModal
+        isOpen={isSettingsOpen}
         onClose={() => setIsSettingsOpen(false)}
         crtActive={crtActive}
         setCrtActive={setCrtActive}

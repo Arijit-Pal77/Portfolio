@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from 'motion/react';
 interface ProjectsViewProps {
 }
 
-export default function ProjectsView({}: ProjectsViewProps) {
+export default function ProjectsView({ }: ProjectsViewProps) {
   const [activeInteractiveId, setActiveInteractiveId] = useState<string | null>(null);
 
   const getInteractiveComponent = (id: string) => {
@@ -146,7 +146,7 @@ export default function ProjectsView({}: ProjectsViewProps) {
         variants={cardContainerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.05 }}
+        viewport={{ once: true, amount: 0.1 }}
       >
         {/* Plant Disease Detection (Large Featured) */}
         <motion.article className="md:col-span-8 group" variants={cardVariants}>

@@ -12,6 +12,25 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
   const aboutRef = useRef<HTMLDivElement>(null);
   const educationRef = useRef<HTMLDivElement>(null);
   const [isImageTapped, setIsImageTapped] = useState(false);
+  const [avatarSrc, setAvatarSrc] = useState(PROFILE_DETAILS.avatar);
+  const [fallbackIndex, setFallbackIndex] = useState(0);
+
+  const handleAvatarError = () => {
+    const fallbacks = [
+      '/Photos/avatar.jpg',
+      '/Photos/avatar.png',
+      '/avatar.png',
+      '/avatar.jpeg',
+      '/Logo-1.jpeg',
+      'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=800'
+    ];
+
+    if (fallbackIndex < fallbacks.length) {
+      const nextSrc = fallbacks[fallbackIndex];
+      setFallbackIndex(prev => prev + 1);
+      setAvatarSrc(nextSrc);
+    }
+  };
 
   // IntersectionObserver for section tracking (replaces scroll event listener)
   useEffect(() => {
@@ -70,8 +89,8 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.05,
-        delayChildren: 0.3
+        staggerChildren: 0.03,
+        delayChildren: 0.1
       }
     }
   };
@@ -93,8 +112,8 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.9
+        staggerChildren: 0.1,
+        delayChildren: 0.4
       }
     }
   };
@@ -117,7 +136,7 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
       opacity: 1,
       y: 0,
       transition: {
-        delay: 1.6,
+        delay: 0.7,
         duration: 1.0,
         ease: [0.16, 1, 0.3, 1]
       }
@@ -130,7 +149,7 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
       opacity: 1,
       y: 0,
       transition: {
-        delay: 2.0,
+        delay: 0.9,
         duration: 0.8,
         ease: [0.16, 1, 0.3, 1]
       }
@@ -143,7 +162,7 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
       opacity: 0.5,
       y: 0,
       transition: {
-        delay: 2.5,
+        delay: 1.2,
         duration: 1.0,
         ease: [0.16, 1, 0.3, 1],
         repeat: Infinity,
@@ -226,9 +245,10 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
                 : 'shadow-[0_0_20px_rgba(0,243,255,0.15)] group-hover:shadow-[0_0_35px_rgba(0,243,255,0.35)]'
                 }`}>
                 <img
-                  src={PROFILE_DETAILS.avatar}
+                  src={avatarSrc}
                   alt={PROFILE_DETAILS.name}
                   referrerPolicy="no-referrer"
+                  onError={handleAvatarError}
                   className={`w-full h-full object-cover brightness-95 transition-all duration-750 group-hover:grayscale-0 group-hover:scale-105 ${isImageTapped ? 'grayscale-0 scale-105' : 'grayscale'
                     }`}
                 />
@@ -439,7 +459,7 @@ export default function ProfileView({ setActiveSection }: ProfileViewProps) {
         variants={staggerContainerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.1 }}
+        viewport={{ once: true, amount: 0.15 }}
       >
         <motion.div className="mb-12" variants={staggerItemVariants}>
           <div className="inline-flex items-center gap-2 font-mono text-[10px] text-electric-cyan uppercase tracking-widest mb-3">
